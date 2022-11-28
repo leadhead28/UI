@@ -1225,15 +1225,6 @@ Frame_8.Size = UDim2.new(0, 20, 0, 20)
 UICorner_51.CornerRadius = UDim.new(0, 6)
 UICorner_51.Parent = Frame_8
 
-Sample.Name = "Sample"
-Sample.Parent = game.Workspace.LegionHubGui.MainFrame.RippleHandler
-Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Sample.BackgroundTransparency = 1.000
-Sample.ZIndex = 25
-Sample.Image = "http://www.roblox.com/asset/?id=4560909609"
-Sample.ImageColor3 = Color3.fromRGB(0, 0, 0)
-Sample.ImageTransparency = 0.600
-
 ScriptControlsFrameHolder.Name = "ScriptControlsFrameHolder"
 ScriptControlsFrameHolder.Parent = MainFrame
 ScriptControlsFrameHolder.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1628,3 +1619,12 @@ local function PNGKW_fake_script() -- MainFrame.ToggleHandler
 	
 end
 coroutine.wrap(PNGKW_fake_script)()
+
+Sample.Name = "Sample"
+Sample.Parent = game.CoreGui.LegionHubGui.MainFrame.RippleHandler
+Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Sample.BackgroundTransparency = 1.000
+Sample.ZIndex = 25
+Sample.Image = "http://www.roblox.com/asset/?id=4560909609"
+Sample.ImageColor3 = Color3.fromRGB(0, 0, 0)
+Sample.ImageTransparency = 0.600
