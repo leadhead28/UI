@@ -1,0 +1,177 @@
+local Settings = game:GetService("HttpService"):JSONDecode(readfile("Legion" .. "/Settings" .. "/Settings.txt"))
+
+local LegionHubNoticeGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local HomeFrameHolder = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local Section1Title = Instance.new("TextLabel")
+local Section1Title_2 = Instance.new("TextLabel")
+local UIPadding = Instance.new("UIPadding")
+local HomeButton = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local Sample = Instance.new("ImageLabel")
+local OutlineColor = Instance.new("Frame")
+local UIGradient = Instance.new("UIGradient")
+local UICorner_4 = Instance.new("UICorner")
+
+--Properties:
+
+LegionHubNoticeGui.Name = "LegionHubNoticeGui"
+LegionHubNoticeGui.Parent = game.CoreGui
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = LegionHubNoticeGui
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(33, 35, 37)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0, 300, 0, 150)
+
+UICorner.CornerRadius = UDim.new(0, 6)
+UICorner.Parent = MainFrame
+
+HomeFrameHolder.Name = "HomeFrameHolder"
+HomeFrameHolder.Parent = MainFrame
+HomeFrameHolder.AnchorPoint = Vector2.new(0.5, 0.5)
+HomeFrameHolder.BackgroundColor3 = Color3.fromRGB(42, 45, 46)
+HomeFrameHolder.BorderSizePixel = 0
+HomeFrameHolder.Position = UDim2.new(0.5, 0, 0.5, 0)
+HomeFrameHolder.Size = UDim2.new(0, 280, 0, 130)
+
+UICorner_2.CornerRadius = UDim.new(0, 6)
+UICorner_2.Parent = HomeFrameHolder
+
+Section1Title.Name = "Section1Title"
+Section1Title.Parent = HomeFrameHolder
+Section1Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Section1Title.BackgroundTransparency = 1.000
+Section1Title.BorderSizePixel = 0
+Section1Title.LayoutOrder = 2
+Section1Title.Size = UDim2.new(1, 0, 0, 20)
+Section1Title.Font = Enum.Font.GothamBold
+Section1Title.Text = "Notice"
+Section1Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Section1Title.TextSize = 14.000
+
+Section1Title_2.Name = "Section1Title"
+Section1Title_2.Parent = HomeFrameHolder
+Section1Title_2.AnchorPoint = Vector2.new(0.5, 0.5)
+Section1Title_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Section1Title_2.BackgroundTransparency = 1.000
+Section1Title_2.BorderSizePixel = 0
+Section1Title_2.LayoutOrder = 2
+Section1Title_2.Position = UDim2.new(0.5, 0, 0.34807691, 0)
+Section1Title_2.Size = UDim2.new(1, 0, -0.303846151, 80)
+Section1Title_2.Font = Enum.Font.GothamMedium
+Section1Title_2.Text = "This is a Beta Build of Legion, everything is subject to change on final release"
+Section1Title_2.TextColor3 = Color3.fromRGB(171, 171, 171)
+Section1Title_2.TextSize = 13.000
+Section1Title_2.TextWrapped = true
+
+UIPadding.Parent = Section1Title_2
+UIPadding.PaddingLeft = UDim.new(0, 17)
+
+HomeButton.Name = "HomeButton"
+HomeButton.Parent = HomeFrameHolder
+HomeButton.AnchorPoint = Vector2.new(0.5, 0.5)
+HomeButton.BackgroundColor3 = Color3.fromRGB(33, 106, 162)
+HomeButton.BorderSizePixel = 0
+HomeButton.LayoutOrder = -1
+HomeButton.Position = UDim2.new(0.5, 0, 1, -25)
+HomeButton.Size = UDim2.new(0, 110, 0, 25)
+HomeButton.Font = Enum.Font.GothamMedium
+HomeButton.Text = "I Understand"
+HomeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+HomeButton.TextSize = 13.000
+
+UICorner_3.CornerRadius = UDim.new(0, 6)
+UICorner_3.Parent = HomeButton
+
+OutlineColor.Name = "OutlineColor"
+OutlineColor.Parent = MainFrame
+OutlineColor.AnchorPoint = Vector2.new(0.5, 0.5)
+OutlineColor.BackgroundColor3 = Color3.fromRGB(33, 106, 162)
+OutlineColor.BorderSizePixel = 0
+OutlineColor.Position = UDim2.new(0.5, 0, 0.5, 0)
+OutlineColor.Size = UDim2.new(1, 6, 1, 6)
+OutlineColor.ZIndex = -2
+
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 250, 213)), ColorSequenceKeypoint.new(0.50, Color3.fromRGB(46, 199, 0)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(250, 150, 150))}
+UIGradient.Offset = Vector2.new(-1, 0)
+UIGradient.Parent = OutlineColor
+UIGradient.Enabled = false
+
+UICorner_4.CornerRadius = UDim.new(0, 6)
+UICorner_4.Parent = OutlineColor
+
+-- Scripts:
+
+local function FPVOI_fake_script() -- HomeFrameHolder.RippleHandler 
+	local script = Instance.new('LocalScript', HomeFrameHolder)
+    script.Name = "RippleHandler"
+    
+	local ms = game.Players.LocalPlayer:GetMouse()
+	
+	local sample = script:WaitForChild('Sample')
+	
+	local ButtonPressed = function(btn)
+		local c = sample:Clone()
+		c.Parent = btn
+		local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+		c.Position = UDim2.new(0, x, 0, y)
+		local len, size = 0.5, nil
+		if btn.AbsoluteSize.X >= btn.AbsoluteSize.Y then
+			size = (btn.AbsoluteSize.X * 1.5)
+		else
+			size = (btn.AbsoluteSize.Y * 1.5)
+		end
+		c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+		for i = 1, 10 do
+			c.ImageTransparency = c.ImageTransparency + 0.05
+			wait(len / 12)
+		end
+		c:Destroy()
+	end
+	
+	for _,v in pairs(script.Parent:GetDescendants()) do
+		if v:IsA("TextButton") then
+			v.ClipsDescendants = true
+			v.MouseButton1Down:Connect(function()
+				ButtonPressed(v)
+			end)
+		end
+	end
+end
+coroutine.wrap(FPVOI_fake_script)()
+-- OutlineColor.main is disabled.
+
+HomeButton.MouseButton1Down:Connect(function()
+    task.wait(0.3)
+	LegionHubNoticeGui:Destroy()	
+end)
+
+Sample.Name = "Sample"
+Sample.Parent = game.CoreGui.LegionHubNoticeGui.MainFrame.HomeFrameHolder.RippleHandler
+Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Sample.BackgroundTransparency = 1.000
+Sample.ZIndex = 25
+Sample.Image = "http://www.roblox.com/asset/?id=4560909609"
+Sample.ImageColor3 = Color3.fromRGB(0, 0, 0)
+Sample.ImageTransparency = 0.600
+
+for i,v in pairs(Settings) do
+    if i == "UIColor" then
+        local Data = Settings[i]
+        local SplitColor = string.split(Data,",")
+        
+        SavedColor = Color3.fromRGB(SplitColor[1]*255,SplitColor[2]*255,SplitColor[3]*255)
+        UIColor2 = SplitColor[1]
+        
+        OutlineColor.BackgroundColor3 = SavedColor
+        
+        
+        HomeButton.BackgroundColor3 = SavedColor 
+        
+    end
+end    
