@@ -175,3 +175,5 @@ for i,v in pairs(Settings) do
         
     end
 end    
+
+return LegionHubNoticeGui
