@@ -23,7 +23,15 @@ for i,v in pairs(Settings) do
     else
         _G.SavedColor = _G.DefaultColor 
     end    
-end    
+end   
+
+for i,v in pairs(Settings) do
+    if i == "ButtonName" then
+        _G.SavedColorName = v
+    else
+        _G.SavedColorName = "Default"
+    end    
+end 
 
 if game.CoreGui:FindFirstChild("LegionHub") then
     game.CoreGui:FindFirstChild("LegionHub"):Destroy()
@@ -530,6 +538,6 @@ function Main:ChangeUIColorTheme(Color,ButtonName)
 
 end    
 
-Main:ChangeUIColorTheme(_G.SavedColor)
+Main:ChangeUIColorTheme(_G.SavedColor,_G.SavedColorName)
 
 return Main
