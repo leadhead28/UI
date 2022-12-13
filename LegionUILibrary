@@ -1,3 +1,30 @@
+_G.DefaultColor = Color3.fromRGB(44, 111, 199)
+--_G.SavedColor = Color3.fromRGB(44, 111, 199)
+
+if not isfolder('LegionHub') then
+    makefolder('LegionHub') 
+end    
+
+if not isfolder("LegionHub" .. "/Settings") then 
+    makefolder("LegionHub" .. "/Settings")
+end
+
+if not isfile("LegionHub" .. "/Settings" .. "/Settings.txt") then
+    local content = {}
+    writefile("LegionHub" .. "/Settings" .. "/Settings.txt", tostring(game:GetService("HttpService"):JSONEncode(content)))
+end    
+
+local Settings = game:GetService("HttpService"):JSONDecode(readfile("LegionHub" .. "/Settings" .. "/Settings.txt"))
+
+for i,v in pairs(Settings) do
+    if i == "UIColor" then
+        local ColorSplit = string.split(v,",")
+        _G.SavedColor = Color3.fromRGB(ColorSplit[1]*255,ColorSplit[2]*255,ColorSplit[3]*255)
+    else
+        _G.SavedColor = _G.DefaultColor 
+    end    
+end    
+
 if game.CoreGui:FindFirstChild("LegionHub") then
     game.CoreGui:FindFirstChild("LegionHub"):Destroy()
 end
@@ -30,7 +57,7 @@ MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MainFrame.Size = UDim2.new(0, 420, 0, 260)
 
 UIStroke.Parent = MainFrame
-UIStroke.Color = Color3.fromRGB(44,111,199)
+UIStroke.Color = _G.SavedColor
 UIStroke.Thickness = 3 
 
 UIStroke_2.Parent = OutlineFrame
@@ -85,7 +112,7 @@ SidebarPaddingTextLabel.TextSize = 16.000
 OutlineFrame.Name = "OutlineFrame"
 OutlineFrame.Parent = MainFrame
 OutlineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-OutlineFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+OutlineFrame.BackgroundColor3 = _G.SavedColor
 OutlineFrame.BackgroundTransparency = 1.000
 OutlineFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 OutlineFrame.Size = UDim2.new(0, MainFrame.Size.X.Offset + 4, 0, MainFrame.Size.Y.Offset + 4)
@@ -217,7 +244,8 @@ function Main:Tab(Text0,Image0,Callback)
 	SidebarButton.Text = Text0
 	SidebarButton.ImageLabel.Image = "rbxassetid://"..ImageToUse
     SidebarButton.LayoutOrder = SidebarButtonCount
-
+    SidebarButton.BackgroundColor3 = _G.SavedColor
+    
 	SidebarButtonCount = SidebarButtonCount + 1
 
 	local HolderFrame = game:GetObjects("rbxassetid://11809415735")[1]
@@ -240,8 +268,6 @@ function Main:Tab(Text0,Image0,Callback)
     local Frame = HolderFrame.ScrollingFrame    
     Frame.ZIndex = 24
     
-	local Sections = {}
-
 	function Sections:Section(Title)
 		local ItemHold = {}
     
@@ -269,11 +295,17 @@ function Main:Tab(Text0,Image0,Callback)
             TextButton.ZIndex = 25
             TextButton.Text = Text0
             TextButton.Name = "Button_"..Text0
+            TextButton.BackgroundColor3 = _G.SavedColor
             
             TextButton.MouseButton1Down:Connect(Callback or function() end)
         end
         
 	function ItemHold:Toggle(Text0, DefaultState, Callback)
+	        local Toggle = {}
+
+	        function NilCallback() end
+            if not Callback then Callback = NilCallback end
+            
             local TextButton = game:GetObjects("rbxassetid://11809834234")[1]
             local ToggleFrame = TextButton.ToggleFrame
            
@@ -284,6 +316,7 @@ function Main:Tab(Text0,Image0,Callback)
             TextButton.ZIndex = 25
             TextButton.Text = Text0
             TextButton.Name = "Toggle_"..Text0
+            TextButton.BackgroundColor3 = _G.SavedColor
             ToggleFrame.ZIndex = 27
 
             local BoolValue = Instance.new("BoolValue")
@@ -298,6 +331,26 @@ function Main:Tab(Text0,Image0,Callback)
                 ToggleFrame.BackgroundColor3 = DisabledColor
             end    
             
+            function Toggle:Set(Value)
+                if Value == true then
+                    BoolValue.Value = true
+		    
+                    task.spawn(function()
+                        game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
+                    end)
+		    
+		            return Callback(true)
+                elseif Value == false then
+		            BoolValue.Value = false
+
+                    task.spawn(function()
+                        game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = DisabledColor}):Play()
+                    end)
+		    
+		            return Callback(false)
+                end
+            end  
+            
             TextButton.MouseButton1Down:Connect(function() 
                 if BoolValue.Value == true then
                     BoolValue.Value = false
@@ -306,7 +359,7 @@ function Main:Tab(Text0,Image0,Callback)
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = DisabledColor}):Play()
                     end)
 		    
-		    return Callback(false)
+		            return Callback(false)
                 elseif BoolValue.Value == false then
                     BoolValue.Value = true
 		    
@@ -314,9 +367,10 @@ function Main:Tab(Text0,Image0,Callback)
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
                     end)
 		    
-		    return Callback(true)
+		            return Callback(true)
                 end
             end)
+            return Toggle
         end
 	
         return ItemHold
@@ -354,6 +408,11 @@ function Main:Notify(Text0)
     local Notif = NotificationTemplate:Clone()
     Notif.Parent = NotificationHandler
     Notif.Size = UDim2.new(0, 0,0,110)
+    
+    Notif.UIStroke.Color = _G.SavedColor
+    Notif.UIStroke.Color = _G.SavedColor
+    Notif.TopTitle.BackgroundColor3 = _G.SavedColor
+    
     game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Size = UDim2.new(0, 230,0,110)}):Play()
     
     Notif.InnerFrame.DescriptionText.Text = tostring(Text0)
@@ -448,5 +507,23 @@ function Main:Notify(Text0)
         end)
     end)
 end
+
+function Main:ChangeUIColorTheme(Color)
+    _G.SavedColor = Color
+    for _,v in pairs(LegionHub:GetDescendants()) do
+        if v:IsA("UIStroke") then
+            v.Color = Color
+        elseif v:IsA("TextButton") and v.Name ~= "CloseButton" then
+            v.BackgroundColor3 = Color
+        end    
+    end
+    
+    
+    local content = {UIColor = tostring(Color.R..","..Color.G..","..Color.B)}
+    writefile("LegionHub" .. "/Settings" .. "/Settings.txt", tostring(game:GetService("HttpService"):JSONEncode(content)))
+
+end    
+
+Main:ChangeUIColorTheme(_G.SavedColor)
 
 return Main
