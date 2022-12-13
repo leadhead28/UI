@@ -103,11 +103,15 @@ SidebarPaddingTextLabel.BackgroundTransparency = 1.000
 SidebarPaddingTextLabel.BorderSizePixel = 0
 SidebarPaddingTextLabel.LayoutOrder = -100
 SidebarPaddingTextLabel.Position = UDim2.new(0, 0, 0.104166664, 0)
-SidebarPaddingTextLabel.Size = UDim2.new(0, 100, 0, 10)
+SidebarPaddingTextLabel.Size = UDim2.new(0, 100, 0, 5)
 SidebarPaddingTextLabel.Font = Enum.Font.GothamBlack
 SidebarPaddingTextLabel.Text = ""
 SidebarPaddingTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SidebarPaddingTextLabel.TextSize = 16.000
+
+local SidebarPaddingTextLabelClone = SidebarPaddingTextLabel:Clone()
+SidebarPaddingTextLabelClone.Parent = Sidebar
+SidebarPaddingTextLabelClone.LayoutOrder = -1000
 
 OutlineFrame.Name = "OutlineFrame"
 OutlineFrame.Parent = MainFrame
@@ -511,7 +515,7 @@ end
 function Main:ChangeUIColorTheme(Color)
     _G.SavedColor = Color
     for _,v in pairs(LegionHub:GetDescendants()) do
-        if v:IsA("UIStroke") then
+        if v:IsA("UIStroke") and v.Parent.Name ~= "ToggleFrame" then
             v.Color = Color
         elseif v:IsA("TextButton") and v.Name ~= "CloseButton" then
             v.BackgroundColor3 = Color
