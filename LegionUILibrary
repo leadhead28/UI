@@ -516,9 +516,10 @@ function Main:ChangeUIColorTheme(Color)
     _G.SavedColor = Color
     for _,v in pairs(LegionHub:GetDescendants()) do
         if v:IsA("UIStroke") and v.Parent.Name ~= "ToggleFrame" then
-            v.Color = Color
+            --v.Color = Color
+            game:GetService("TweenService"):Create(v, TweenInfo.new(0.3), {Color = Color}):Play() 
         elseif v:IsA("TextButton") and v.Name ~= "CloseButton" then
-            v.BackgroundColor3 = Color
+            game:GetService("TweenService"):Create(v, TweenInfo.new(0.3), {BackgroundColor3 = Color}):Play() 
         end    
     end
     
