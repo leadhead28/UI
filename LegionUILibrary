@@ -196,6 +196,12 @@ local SidebarButtonCount = 0
 
 ---------------- UI Library ---------------
 
+local NotificationHandler = game:GetObjects("rbxassetid://11810177299")[1]
+NotificationHandler.Parent = LegionHub
+
+local NotificationTemplate = game:GetObjects("rbxassetid://11810219894")[1]
+
+local Notify
 local Main = {}
 local Sections = {}
 
@@ -337,6 +343,110 @@ function Main:Tab(Text0,Image0,Callback)
     end
     
 	return Sections
+end
+
+function Main:Notify(Text0)
+    local CloseClickDetection
+    local UIClosing = false
+    
+    local Speed = 0.3
+    
+    local Notif = NotificationTemplate:Clone()
+    Notif.Parent = NotificationHandler
+    Notif.Size = UDim2.new(0, 0,0,110)
+    game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Size = UDim2.new(0, 230,0,110)}):Play()
+    
+    Notif.InnerFrame.DescriptionText.Text = tostring(Text0)
+    
+    CloseClickDetection = Notif.TopTitle.CloseButton.MouseButton1Down:Connect(function()
+        UIClosing = true
+        task.spawn(function()
+            for _,v in pairs(Notif:GetDescendants()) do
+                if v:IsA("Frame") or v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("UIStroke") then
+                    if v.Parent.Name ~= "OutlineFrame" then
+                        if v.Name == "DescriptionText" then
+                            game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {TextTransparency = 1}):Play() 
+                        else
+                            game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+                        end
+                    elseif v:IsA("UIStroke") and v.Parent.Name == "OutlineFrame" then
+                        game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+                    end    
+                elseif v:IsA("ImageLabel") then
+                    game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {ImageTransparency = 1}):Play() 
+                end    
+            end
+            
+            game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+            game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Size = UDim2.new(0, 230,0,0)}):Play()
+            task.wait(Speed)
+            Notif:Destroy()
+        end)
+    end)    
+    
+    task.spawn(function()
+        
+        Notif.Transparency = 1
+        for _,v in pairs(Notif:GetDescendants()) do
+            if v:IsA("Frame") or v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("UIStroke") then
+                v.Transparency = 1 
+            elseif v:IsA("ImageLabel") then
+                v.ImageTransparency = 1
+            end    
+        end
+        
+        for _,v in pairs(Notif:GetDescendants()) do
+            if v:IsA("Frame") or v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("UIStroke") then
+                if v.Parent.Name ~= "OutlineFrame" then
+                    if v.Name == "DescriptionText" then
+                        game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {TextTransparency = 0}):Play() 
+                    else
+                        game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 0}):Play() 
+                    end
+                elseif v:IsA("UIStroke") and v.Parent.Name == "OutlineFrame" then
+                    game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 0.8}):Play() 
+                end    
+            elseif v:IsA("ImageLabel") then
+                game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {ImageTransparency = 0}):Play() 
+            end    
+        end
+        
+        game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Transparency = 0}):Play() 
+    end)
+    
+    task.spawn(function()
+        for i = 1,5 do
+            task.wait(1)
+            if UIClosing then break end
+            Notif.TopTitle.Text = "Notification ("..5-i.."s)"
+        end
+        
+        task.spawn(function()
+            if not UIClosing then
+ 
+                for _,v in pairs(Notif:GetDescendants()) do
+                    if v:IsA("Frame") or v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("UIStroke") then
+                        if v.Parent.Name ~= "OutlineFrame" then
+                            if v.Name == "DescriptionText" then
+                                game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {TextTransparency = 1}):Play() 
+                            else
+                                game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+                            end
+                        elseif v:IsA("UIStroke") and v.Parent.Name == "OutlineFrame" then
+                            game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+                        end    
+                    elseif v:IsA("ImageLabel") then
+                        game:GetService("TweenService"):Create(v, TweenInfo.new(Speed), {ImageTransparency = 1}):Play() 
+                    end    
+                end
+                
+                game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Transparency = 1}):Play() 
+                game:GetService("TweenService"):Create(Notif, TweenInfo.new(Speed), {Size = UDim2.new(0, 230,0,0)}):Play() 
+                task.wait(Speed)
+                Notif:Destroy()
+            end
+        end)
+    end)
 end
 
 return Main
