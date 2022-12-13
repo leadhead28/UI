@@ -304,7 +304,8 @@ function Main:Tab(Text0,Image0,Callback)
                     task.spawn(function()
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
                     end)
-                end 
+                end
+		return Callback(BoolValue.Value)
             end)
         end
 	
