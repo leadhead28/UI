@@ -1,0 +1,296 @@
+if game.CoreGui:FindFirstChild("LegionHub") then
+    game.CoreGui:FindFirstChild("LegionHub"):Destroy()
+end
+
+local LegionHub = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Sidebar = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local UIListLayout = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
+local LegionHubTitleTextLabel = Instance.new("TextLabel")
+local SidebarPaddingTextLabel = Instance.new("TextLabel")
+local OutlineFrame = Instance.new("Frame")
+local UICorner_3 = Instance.new("UICorner")
+local Sample = Instance.new("ImageLabel")
+local UIStroke = Instance.new("UIStroke")
+local UIStroke_2 = Instance.new("UIStroke")
+
+--Properties:
+
+LegionHub.Name = "LegionHub"
+LegionHub.Parent = game.CoreGui
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = LegionHub
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0, 420, 0, 260)
+
+UIStroke.Parent = MainFrame
+UIStroke.Color = Color3.fromRGB(44,111,199)
+UIStroke.Thickness = 3 
+
+UIStroke_2.Parent = OutlineFrame
+UIStroke_2.Color = Color3.fromRGB(0,0,0)
+UIStroke_2.Transparency = 0.8
+UIStroke_2.Thickness = 4
+
+UICorner.CornerRadius = UDim.new(0, 4)
+UICorner.Parent = MainFrame
+
+Sidebar.Name = "Sidebar"
+Sidebar.Parent = MainFrame
+Sidebar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Sidebar.Size = UDim2.new(0, 140, 1, 0)
+
+UICorner_2.CornerRadius = UDim.new(0, 4)
+UICorner_2.Parent = Sidebar
+
+UIListLayout.Parent = Sidebar
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 10)
+
+UIPadding.Parent = Sidebar
+UIPadding.PaddingLeft = UDim.new(0, 10)
+UIPadding.PaddingTop = UDim.new(0, 10)
+
+LegionHubTitleTextLabel.Name = "LegionHubTitleTextLabel"
+LegionHubTitleTextLabel.Parent = Sidebar
+LegionHubTitleTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LegionHubTitleTextLabel.BackgroundTransparency = 1.000
+LegionHubTitleTextLabel.BorderSizePixel = 0
+LegionHubTitleTextLabel.LayoutOrder = -100
+LegionHubTitleTextLabel.Size = UDim2.new(0, 110, 0, 15)
+LegionHubTitleTextLabel.Font = Enum.Font.GothamBlack
+LegionHubTitleTextLabel.Text = "Legion Hub"
+LegionHubTitleTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+LegionHubTitleTextLabel.TextSize = 14.000
+
+SidebarPaddingTextLabel.Name = "SidebarPaddingTextLabel"
+SidebarPaddingTextLabel.Parent = Sidebar
+SidebarPaddingTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SidebarPaddingTextLabel.BackgroundTransparency = 1.000
+SidebarPaddingTextLabel.BorderSizePixel = 0
+SidebarPaddingTextLabel.LayoutOrder = -100
+SidebarPaddingTextLabel.Position = UDim2.new(0, 0, 0.104166664, 0)
+SidebarPaddingTextLabel.Size = UDim2.new(0, 100, 0, 10)
+SidebarPaddingTextLabel.Font = Enum.Font.GothamBlack
+SidebarPaddingTextLabel.Text = ""
+SidebarPaddingTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+SidebarPaddingTextLabel.TextSize = 16.000
+
+OutlineFrame.Name = "OutlineFrame"
+OutlineFrame.Parent = MainFrame
+OutlineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+OutlineFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+OutlineFrame.BackgroundTransparency = 1.000
+OutlineFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+OutlineFrame.Size = UDim2.new(0, MainFrame.Size.X.Offset + 4, 0, MainFrame.Size.Y.Offset + 4)
+OutlineFrame.ZIndex = -1
+
+UICorner_3.CornerRadius = UDim.new(0, 4)
+UICorner_3.Parent = OutlineFrame
+
+-- Scripts:
+
+local function DUIGF_fake_script() -- MainFrame.Dragify 
+	local script = Instance.new('LocalScript', MainFrame)
+
+	local UIS = game:GetService("UserInputService")
+	function dragify(Frame)
+		dragToggle = nil
+		dragSpeed = 0.15
+		dragInput = nil
+		dragStart = nil
+		dragPos = nil
+		function updateInput(input)
+			Delta = input.Position - dragStart
+			Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+			game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.15), {Position = Position}):Play()
+		end
+		Frame.InputBegan:Connect(function(input)
+			if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+				dragToggle = true
+				dragStart = input.Position
+				startPos = Frame.Position
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragToggle = false
+					end
+				end)
+			end
+		end)
+		Frame.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				dragInput = input
+			end
+		end)
+		game:GetService("UserInputService").InputChanged:Connect(function(input)
+			if input == dragInput and dragToggle then
+				updateInput(input)
+			end
+		end)
+	end
+	dragify(script.Parent)
+
+end
+coroutine.wrap(DUIGF_fake_script)()
+local function VLDWTYO_fake_script() -- MainFrame.Handler 
+	local script = Instance.new('LocalScript', MainFrame)
+	script.Name = "Handler"
+	
+	local ms = game.Players.LocalPlayer:GetMouse()
+	local sample = script:WaitForChild('Sample')
+
+	function btnclicked(btn)
+		local c = sample:Clone()
+		c.ZIndex = 9001
+		c.Parent = btn
+		local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+		c.Position = UDim2.new(0, x, 0, y)
+		local len, size = 0.7, nil
+		if btn.AbsoluteSize.X >= btn.AbsoluteSize.Y then
+			size = (btn.AbsoluteSize.X * 1.5)
+		else
+			size = (btn.AbsoluteSize.Y * 1.5)
+		end
+		c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+		for i = 1, 10 do
+			c.ImageTransparency = c.ImageTransparency + 0.05
+			wait(len / 12)
+		end
+		c:Destroy()
+	end
+
+	for _,v in pairs(script.Parent:GetDescendants()) do
+		if v:IsA("TextButton") then
+			v.ClipsDescendants = true
+			v.MouseButton1Down:Connect(function()
+				btnclicked(v)
+			end)
+		end
+	end
+end
+coroutine.wrap(VLDWTYO_fake_script)()
+
+Sample.Name = "Sample"
+Sample.Parent = MainFrame.Handler
+Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Sample.BackgroundTransparency = 1.000
+Sample.Image = "http://www.roblox.com/asset/?id=4560909609"
+Sample.ImageColor3 = Color3.fromRGB(0, 0, 0)
+Sample.ImageTransparency = 0.600
+
+
+---------------- Main Variables -----------
+
+local Sidebar = MainFrame.Sidebar
+
+---------------- Variables ----------------
+
+local SelectedColor = Color3.fromRGB(44, 111, 199)
+local SidebarButtonCount = 0
+
+---------------- UI Library ---------------
+
+local Main = {}
+local Sections = {}
+
+function Main:Tab(Text0,Image0,Callback)
+	local ImageToUse
+    local TabAmt = 0
+    
+	if Image0 then ImageToUse = Image0 else ImageToUse = 105897927 end
+
+	local SidebarButton = game:GetObjects("rbxassetid://11804865958")[1]
+	SidebarButton.Parent = Sidebar
+	SidebarButton.Visible = true
+	SidebarButton.Text = Text0
+	SidebarButton.ImageLabel.Image = "rbxassetid://"..ImageToUse
+    SidebarButton.LayoutOrder = SidebarButtonCount
+
+	SidebarButtonCount = SidebarButtonCount + 1
+
+	local HolderFrame = game:GetObjects("rbxassetid://11809415735")[1]
+	--if MainAmt == 1 then
+	HolderFrame.Visible = true
+	--end
+	HolderFrame.Parent = MainFrame
+	HolderFrame.Position = UDim2.new(0.5,70,0.5,0)
+	HolderFrame.Size = UDim2.new(0, (MainFrame.Size.X.Offset - Sidebar.Size.X.Offset) - 20,0, (MainFrame.Size.Y.Offset - Sidebar.Size.Y.Offset) - 20)
+	HolderFrame.Name = "SectionFrame"
+    
+    for _,v in pairs(MainFrame:GetChildren()) do
+        if v:IsA("Frame") then
+            if v.Name:sub(1,13) == "SectionFrame" then
+                v.Visible = false
+            end    
+        end
+    end    
+    
+    local Frame = HolderFrame.ScrollingFrame    
+    Frame.ZIndex = 24
+    
+	local Sections = {}
+
+	function Sections:Section(Title)
+		local ItemHold = {}
+    
+        local SectionLabel = game:GetObjects("rbxassetid://11804752786")[1]
+        SectionLabel.Parent = Frame
+        SectionLabel.Text = Title
+        SectionLabel.ZIndex = 25
+        SectionLabel.BackgroundTransparency = 1
+        SectionLabel.TextColor3 = Color3.fromRGB(160,160,160)
+        SectionLabel.Size = UDim2.new(1, -10,0, 15)
+        SectionLabel.Name = "SectionLabel_"..Title
+        
+        function ItemHold:Label(Text0)
+            TextLabel = game:GetObjects("rbxassetid://11804752786")[1]
+            TextLabel.Parent = Frame
+            TextLabel.ZIndex = 25
+            TextLabel.Text = Text0
+            TextLabel.Name = "Label_"..Text0
+            
+        end
+        
+        function ItemHold:Button(Text0, Callback)
+            TextButton = game:GetObjects("rbxassetid://11804852685")[1]
+            TextButton.Parent = Frame
+            TextButton.ZIndex = 25
+            TextButton.Text = Text0
+            TextButton.Name = "Button_"..Text0
+            
+            TextButton.MouseButton1Down:Connect(Callback or function() end)
+        end
+        
+        return ItemHold
+	end
+
+    SidebarButton.MouseButton1Down:Connect(Callback or function() end)
+	SidebarButton.MouseButton1Down:Connect(function() 
+	    for _,v in pairs(MainFrame:GetChildren()) do 
+	        if string.find(v.Name,"SectionFrame") then 
+	            v.Visible = false 
+	        end
+	    end;
+	    if HolderFrame then HolderFrame.Visible = true end
+    end)
+
+    for _,v in pairs(MainFrame:GetChildren()) do
+        if v:IsA("Frame") then
+            if v.Name:sub(1,13) == "SectionFrame" then
+                if penis == 1 then
+                    v.Visible = true
+                end    
+            end    
+        end
+    end
+    
+	return Sections
+end
+
+return Main
