@@ -512,7 +512,7 @@ function Main:Notify(Text0)
     end)
 end
 
-function Main:ChangeUIColorTheme(Color)
+function Main:ChangeUIColorTheme(Color,ButtonName)
     _G.SavedColor = Color
     for _,v in pairs(LegionHub:GetDescendants()) do
         if v:IsA("UIStroke") and v.Parent.Name ~= "ToggleFrame" and v.Parent.Name ~= "CloseButton" then
@@ -525,7 +525,7 @@ function Main:ChangeUIColorTheme(Color)
     end
     
     
-    local content = {UIColor = tostring(Color.R..","..Color.G..","..Color.B)}
+    local content = {UIColor = tostring(Color.R..","..Color.G..","..Color.B), ButtonName = tostring(ButtonName)}
     writefile("LegionHub" .. "/Settings" .. "/Settings.txt", tostring(game:GetService("HttpService"):JSONEncode(content)))
 
 end    
