@@ -267,6 +267,47 @@ function Main:Tab(Text0,Image0,Callback)
             TextButton.MouseButton1Down:Connect(Callback or function() end)
         end
         
+	function ItemHold:Toggle(Text0, DefaultState, Callback)
+            local TextButton = game:GetObjects("rbxassetid://11809834234")[1]
+            local ToggleFrame = TextButton.ToggleFrame
+           
+            local EnabledColor = Color3.fromRGB(47, 193, 37)
+            local DisabledColor = Color3.fromRGB(40, 40, 40)
+           
+            TextButton.Parent = Frame
+            TextButton.ZIndex = 25
+            TextButton.Text = Text0
+            TextButton.Name = "Toggle_"..Text0
+            ToggleFrame.ZIndex = 27
+
+            local BoolValue = Instance.new("BoolValue")
+            BoolValue.Parent = ToggleFrame
+            BoolValue.Value = DefaultState
+            BoolValue.Name = "IsEnabled"
+            
+            if DefaultState then
+                ToggleFrame.BackgroundColor3 = EnabledColor
+                Callback()
+            else
+                ToggleFrame.BackgroundColor3 = DisabledColor
+            end    
+            
+            TextButton.MouseButton1Down:Connect(Callback or function() end)
+            TextButton.MouseButton1Down:Connect(function() 
+                if BoolValue.Value == true then
+                    BoolValue.Value = false
+                    task.spawn(function()
+                        game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = DisabledColor}):Play()
+                    end)
+                elseif BoolValue.Value == false then
+                    BoolValue.Value = true
+                    task.spawn(function()
+                        game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
+                    end)
+                end 
+            end)
+        end
+	
         return ItemHold
 	end
 
