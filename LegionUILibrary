@@ -296,16 +296,21 @@ function Main:Tab(Text0,Image0,Callback)
             TextButton.MouseButton1Down:Connect(function() 
                 if BoolValue.Value == true then
                     BoolValue.Value = false
+
                     task.spawn(function()
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = DisabledColor}):Play()
                     end)
+		    
+		    return Callback(false)
                 elseif BoolValue.Value == false then
                     BoolValue.Value = true
+		    
                     task.spawn(function()
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
                     end)
+		    
+		    return Callback(true)
                 end
-		return Callback(BoolValue.Value)
             end)
         end
 	
