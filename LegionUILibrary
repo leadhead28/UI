@@ -292,7 +292,6 @@ function Main:Tab(Text0,Image0,Callback)
                 ToggleFrame.BackgroundColor3 = DisabledColor
             end    
             
-            TextButton.MouseButton1Down:Connect(Callback or function() end)
             TextButton.MouseButton1Down:Connect(function() 
                 if BoolValue.Value == true then
                     BoolValue.Value = false
