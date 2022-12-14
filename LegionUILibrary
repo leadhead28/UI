@@ -343,23 +343,26 @@ function Main:Tab(Text0,Image0,Callback)
                 ToggleFrame.BackgroundColor3 = DisabledColor
             end    
             
-            function Toggle:Set(Value)
+            function Toggle:Set(Value,ShouldCallback)
                 if Value == true then
                     BoolValue.Value = true
 		    
                     task.spawn(function()
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = EnabledColor}):Play()
                     end)
-		    
-		            return Callback(true)
+                    
+		            if ShouldCallback then
+		                return Callback(true)
+		            end
                 elseif Value == false then
 		            BoolValue.Value = false
 
                     task.spawn(function()
                         game:GetService("TweenService"):Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundColor3 = DisabledColor}):Play()
                     end)
-		    
-		            return Callback(false)
+		            if ShouldCallback then
+		                return Callback(false)
+		            end
                 end
             end  
             
